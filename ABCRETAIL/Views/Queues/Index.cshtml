@@ -1,0 +1,38 @@
+﻿@model List<ABCRETAIL.Services.QueueMessageDto>
+
+@{
+    ViewData["Title"] = "Queue Messages";
+    Layout = "_Layout"; // Optional, if using layout
+}
+
+<div class="container" style="max-width: 600px; margin-top: 40px;">
+    <h2 style="text-align:center;">Query Messages</h2>
+
+    <!-- Input Form -->
+    <form asp-action="Enqueue" method="post" class="input-group mb-3">
+        <input type="text" name="text" class="form-control" placeholder="Enter message..." required />
+        <button class="btn btn-primary" type="submit">Enquire</button>
+    </form>
+
+    <!-- Message List -->
+    <ul class="list-group">
+        @if (Model != null && Model.Any())
+        {
+            foreach (var msg in Model)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>@msg.MessageText</span>
+                    <form asp-action="Delete" method="post" style="margin: 0;">
+                        <input type="hidden" name="messageId" value="@msg.MessageId" />
+                        <input type="hidden" name="popReceipt" value="@msg.PopReceipt" />
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </li>
+            }
+        }
+        else
+        {
+            <li class="list-group-item text-muted">No messages in the queue.</li>
+        }
+    </ul>
+</div>

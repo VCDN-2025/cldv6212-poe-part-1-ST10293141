@@ -1,0 +1,96 @@
+﻿@model List<ABCRETAIL.Models.ProductEntity>
+
+@{
+    ViewData["Title"] = "Products";
+    var availableProducts = new Dictionary<string, string>
+    {
+        { "Laptop", "/images/laptop.jpg" },
+        { "Phone", "/images/phone.jpg" },
+        { "Desktop", "/images/desktop.jpg" },
+        { "Headphones", "/images/headphones.jpg" },
+        { "TV", "/images/tv.jpg" }
+    };
+}
+
+<h2>Products</h2>
+
+<form asp-action="Create" method="post" class="mb-4">
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label for="Name">Select Product</label>
+            <select name="Name" class="form-control" id="productSelect" onchange="updateProductImage()">
+                <option disabled selected>Select a product...</option>
+                @foreach (var item in availableProducts)
+                {
+                    <option value="@item.Key">@item.Key</option>
+                }
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label for="Price">Price</label>
+            <input type="number" name="Price" class="form-control" required />
+        </div>
+        <div class="form-group col-md-4 align-self-end">
+            <button type="submit" class="btn btn-success">Add Product</button>
+        </div>
+    </div>
+</form>
+
+<p class="text-muted">Note: Only Laptop, Phone, Desktop, Headphones, and TV are available to select for now.</p>
+
+<div class="mb-3">
+    <img id="productImage" src="" alt="" style="max-height:150px; display:none;" class="img-thumbnail" />
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>PartitionKey</th>
+            <th>RowKey</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.PartitionKey</td>
+                <td>@product.RowKey</td>
+                <td>@product.Name</td>
+                <td>R @product.Price</td>
+                <td>
+                    <form asp-action="Delete" method="post" style="display:inline">
+                        <input type="hidden" name="partitionKey" value="@product.PartitionKey" />
+                        <input type="hidden" name="rowKey" value="@product.RowKey" />
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        const productImages = {
+            Laptop: '/images/laptop.jpg',
+            Phone: '/images/phone.jpg',
+            Desktop: '/images/desktop.jpg',
+            Headphones: '/images/headphones.jpg',
+            TV: '/images/tv.jpg'
+        };
+
+        function updateProductImage() {
+            const selected = document.getElementById("productSelect").value;
+            const image = document.getElementById("productImage");
+            if (productImages[selected]) {
+                image.src = productImages[selected];
+                image.style.display = "block";
+            } else {
+                image.style.display = "none";
+            }
+        }
+    </script>
+}

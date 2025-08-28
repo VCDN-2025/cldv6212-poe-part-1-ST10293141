@@ -1,0 +1,35 @@
+﻿@model List<ABCRETAIL.Models.MediaViewModel>
+
+@{
+    ViewData["Title"] = "Media Gallery";
+}
+
+<div class="container">
+    <h2 class="mb-4">Uploaded Media</h2>
+
+    <form asp-action="Upload" method="post" enctype="multipart/form-data" class="mb-4">
+        <div class="input-group">
+            <input type="file" name="file" class="form-control" required />
+            <button type="submit" class="btn btn-primary">Upload</button>
+        </div>
+    </form>
+
+    @if (Model != null && Model.Any())
+    {
+        <ul class="list-group">
+            @foreach (var media in Model)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="@media.Url" target="_blank">@media.Name</a>
+                    <form asp-action="Delete" method="post" asp-route-name="@media.Name" class="m-0">
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                    </form>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <div class="alert alert-info mt-3">No media files uploaded yet.</div>
+    }
+</div>

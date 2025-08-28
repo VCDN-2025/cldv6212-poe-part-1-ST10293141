@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to ABC Retail</h1>
+    <p class="lead">This is a technology store:</p>
+
+    <div class="row mt-4">
+        <div class="col-md-3">
+            <a class="btn btn-primary w-100" asp-controller="Media" asp-action="Index">Media</a>
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-success w-100" asp-controller="Customers" asp-action="Index">Customers</a>
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-success w-100" asp-controller="Products" asp-action="Index">Products</a>
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-warning w-100" asp-controller="Queues" asp-action="Index">Queries</a>
+        </div>
+        <div class="col-md-3 mt-3">
+            <a class="btn btn-info w-100" asp-controller="Contracts" asp-action="Index">Orders</a>
+        </div>
+    </div>
+</div>
